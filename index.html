@@ -1,19 +1,459 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | UAF Debugger Pro</title>
+    <style>
+        :root {
+            --bg: #f5efe4;
+            --bg-soft: #fffaf2;
+            --surface: rgba(255, 252, 246, 0.84);
+            --surface-strong: #fffdf8;
+            --text: #1e1a16;
+            --muted: #645a4d;
+            --line: rgba(76, 58, 37, 0.14);
+            --accent: #b4542f;
+            --accent-strong: #8d3f21;
+            --shadow: 0 24px 80px rgba(76, 58, 37, 0.14);
+            --radius-xl: 28px;
+            --radius-lg: 18px;
+            --radius-md: 14px;
+            --max-width: 1120px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(180, 84, 47, 0.14), transparent 34%),
+                radial-gradient(circle at 85% 12%, rgba(217, 161, 86, 0.18), transparent 28%),
+                linear-gradient(180deg, #f7f0e3 0%, #f3eadc 45%, #efe5d6 100%);
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);
+            background-size: 36px 36px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 85%);
+            opacity: 0.35;
+        }
+
+        .shell {
+            width: min(calc(100% - 32px), var(--max-width));
+            margin: 0 auto;
+            padding: 32px 0 72px;
+            position: relative;
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: var(--radius-xl);
+            padding: 28px;
+            background:
+                linear-gradient(135deg, rgba(255, 248, 236, 0.95), rgba(255, 251, 245, 0.88)),
+                var(--surface);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            right: -40px;
+            top: -60px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(180, 84, 47, 0.18), transparent 68%);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(180, 84, 47, 0.1);
+            color: var(--accent-strong);
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            align-items: end;
+            position: relative;
+            z-index: 1;
+            margin-top: 18px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(40px, 6vw, 72px);
+            line-height: 0.96;
+            letter-spacing: -0.04em;
+            max-width: 9ch;
+        }
+
+        .lead {
+            margin: 18px 0 0;
+            max-width: 62ch;
+            font-size: 18px;
+            line-height: 1.75;
+            color: var(--muted);
+        }
+
+        .summary-card {
+            border: 1px solid rgba(180, 84, 47, 0.14);
+            border-radius: 22px;
+            padding: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 247, 237, 0.86));
+        }
+
+        .summary-card h2 {
+            margin: 0 0 14px;
+            font-size: 18px;
+        }
+
+        .summary-list {
+            display: grid;
+            gap: 12px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .summary-list li {
+            padding: 12px 14px;
+            border-radius: var(--radius-md);
+            background: var(--surface-strong);
+            border: 1px solid var(--line);
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .summary-list strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 280px minmax(0, 1fr);
+            gap: 24px;
+            margin-top: 28px;
+        }
+
+        .side-panel {
+            align-self: start;
+            position: sticky;
+            top: 24px;
+            border-radius: 22px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: rgba(255, 251, 244, 0.78);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 18px 50px rgba(76, 58, 37, 0.1);
+            padding: 20px;
+        }
+
+        .side-panel h2 {
+            margin: 0 0 14px;
+            font-size: 16px;
+            letter-spacing: 0.02em;
+        }
+
+        .side-panel nav {
+            display: grid;
+            gap: 10px;
+        }
+
+        .side-panel a {
+            color: var(--muted);
+            text-decoration: none;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+        }
+
+        .side-panel a:hover,
+        .side-panel a:focus-visible {
+            transform: translateX(4px);
+            border-color: rgba(180, 84, 47, 0.18);
+            background: rgba(180, 84, 47, 0.08);
+            color: var(--accent-strong);
+            outline: none;
+        }
+
+        .stack {
+            display: grid;
+            gap: 18px;
+        }
+
+        .card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            background: linear-gradient(180deg, rgba(255, 252, 246, 0.92), rgba(255, 249, 241, 0.82));
+            padding: 24px;
+            box-shadow: 0 18px 60px rgba(76, 58, 37, 0.12);
+            animation: rise 500ms ease both;
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 70ms;
+        }
+
+        .card:nth-child(3) {
+            animation-delay: 140ms;
+        }
+
+        .card:nth-child(4) {
+            animation-delay: 210ms;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0 auto auto 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), rgba(217, 161, 86, 0.2));
+        }
+
+        .card h3 {
+            margin: 0 0 12px;
+            font-size: 26px;
+            letter-spacing: -0.03em;
+        }
+
+        .card p,
+        .card li {
+            color: var(--muted);
+            font-size: 17px;
+            line-height: 1.75;
+        }
+
+        .card p {
+            margin: 0;
+        }
+
+        .card ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            min-height: 36px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: rgba(180, 84, 47, 0.08);
+            border: 1px solid rgba(180, 84, 47, 0.14);
+            color: var(--accent-strong);
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 22px;
+            padding: 18px 20px 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer a {
+            color: var(--accent-strong);
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 920px) {
+            .hero-grid,
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .side-panel {
+                position: static;
+            }
+
+            h1 {
+                max-width: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .shell {
+                width: min(calc(100% - 20px), var(--max-width));
+                padding-top: 14px;
+                padding-bottom: 32px;
+            }
+
+            .hero,
+            .card,
+            .side-panel {
+                border-radius: 20px;
+                padding: 18px;
+            }
+
+            .lead,
+            .card p,
+            .card li {
+                font-size: 16px;
+            }
+
+            .tag-row {
+                gap: 8px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-    <h1>Privacy Policy</h1>
+    <main class="shell">
+        <section class="hero">
+            <div class="eyebrow">Privacy First</div>
+            <div class="hero-grid">
+                <div>
+                    <h1>Privacy policy built for a debugging tool.</h1>
+                    <p class="lead">
+                        UAF Debugger Pro is designed to inspect ad-related elements on the active page and help developers
+                        enable a temporary debug cookie. It is not built to collect personal information, track users, or
+                        send browsing data to external servers.
+                    </p>
+                </div>
+                <aside class="summary-card" aria-label="Policy summary">
+                    <h2>At a glance</h2>
+                    <ul class="summary-list">
+                        <li>
+                            <strong>No personal data collection</strong>
+                            The extension does not collect, store, or sell personal information.
+                        </li>
+                        <li>
+                            <strong>Local browser actions only</strong>
+                            It reads the active page to find supported ad units and banner wrappers.
+                        </li>
+                        <li>
+                            <strong>Cookie control for debugging</strong>
+                            It can create or remove the `uadrefresh_debug` cookie on the current site.
+                        </li>
+                    </ul>
+                </aside>
+            </div>
+        </section>
 
-    <p>This Chrome extension is designed to debug ad units and manage a testing cookie.</p>
+        <section class="content">
+            <aside class="side-panel">
+                <h2>On this page</h2>
+                <nav>
+                    <a href="#information">Information We Access</a>
+                    <a href="#usage">How It Is Used</a>
+                    <a href="#sharing">Data Sharing</a>
+                    <a href="#security">Storage and Security</a>
+                    <a href="#updates">Policy Updates</a>
+                </nav>
+            </aside>
 
-    <p>We do not collect, store, or share any personal data.</p>
+            <div class="stack">
+                <section class="card" id="information">
+                    <h3>Information We Access</h3>
+                    <p>
+                        The extension only accesses information necessary to operate its debugging features on the active
+                        browser tab. This includes page elements related to ad units, banner wrappers, and the
+                        `uadrefresh_debug` cookie used for testing UAF behavior.
+                    </p>
+                    <div class="tag-row" aria-label="Accessed items">
+                        <span class="tag">Active tab URL context</span>
+                        <span class="tag">Ad unit identifiers</span>
+                        <span class="tag">Banner wrapper IDs</span>
+                        <span class="tag">Debug cookie state</span>
+                    </div>
+                </section>
 
-    <p>The extension only works on the active tab and does not transmit any information externally.</p>
+                <section class="card" id="usage">
+                    <h3>How This Information Is Used</h3>
+                    <ul>
+                        <li>To detect supported ad units and banner wrappers on the current page.</li>
+                        <li>To let the user enable or disable the `uadrefresh_debug` cookie for debugging purposes.</li>
+                        <li>To scroll to and visually highlight selected elements when the user clicks them in the extension popup.</li>
+                        <li>To display the expiration time of the debug cookie in the extension interface.</li>
+                    </ul>
+                </section>
+
+                <section class="card" id="sharing">
+                    <h3>Data Sharing</h3>
+                    <p>
+                        UAF Debugger Pro does not transmit page data, cookie data, or user information to external services.
+                        No analytics, remote tracking scripts, or third-party data brokers are used by this extension.
+                    </p>
+                </section>
+
+                <section class="card" id="security">
+                    <h3>Storage and Security</h3>
+                    <p>
+                        Any small amount of state used by the extension, such as cookie expiration metadata, stays inside
+                        the browser through Chrome extension storage. The tool is intended to support internal debugging
+                        workflows and does not maintain a remote database of user activity.
+                    </p>
+                </section>
+
+                <section class="card" id="updates">
+                    <h3>Policy Updates</h3>
+                    <p>
+                        If the extension behavior changes in a way that affects privacy, this page should be updated to
+                        reflect the new functionality before release. Users should review this policy periodically for the
+                        latest version.
+                    </p>
+                </section>
+            </div>
+        </section>
+
+        <footer class="footer">
+            Last reviewed for the current project version of <strong>UAF Debugger Pro</strong>.
+            If you add telemetry, remote APIs, account features, or broader page access later, this policy should be
+            revised before publishing those changes.
+        </footer>
+    </main>
 </body>
-
 </html>
