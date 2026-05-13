@@ -360,15 +360,15 @@
                     <p class="lead">
                         UAF Debugger Pro is designed to inspect ad-related elements on the active page and help developers
                         enable a temporary debug cookie. It is not built to collect personal information, track users, or
-                        send browsing data to external servers.
+                        send ad or browsing data to external servers.
                     </p>
                 </div>
                 <aside class="summary-card" aria-label="Policy summary">
                     <h2>At a glance</h2>
                     <ul class="summary-list">
                         <li>
-                            <strong>No personal data collection</strong>
-                            The extension does not collect, store, or sell personal information.
+                            <strong>No personal data sale or remote database</strong>
+                            The extension does not sell personal information or maintain a remote database of user activity.
                         </li>
                         <li>
                             <strong>Local browser actions only</strong>
@@ -377,6 +377,10 @@
                         <li>
                             <strong>Cookie control for debugging</strong>
                             It can create or remove the `uadrefresh_debug` cookie on the current site.
+                        </li>
+                        <li>
+                            <strong>Optional public IP display</strong>
+                            The popup can request the public IP address from a public IP lookup service and show it locally.
                         </li>
                     </ul>
                 </aside>
@@ -389,6 +393,7 @@
                 <nav>
                     <a href="#information">Information We Access</a>
                     <a href="#usage">How It Is Used</a>
+                    <a href="#permissions">Chrome Permissions</a>
                     <a href="#sharing">Data Sharing</a>
                     <a href="#security">Storage and Security</a>
                     <a href="#updates">Policy Updates</a>
@@ -400,14 +405,17 @@
                     <h3>Information We Access</h3>
                     <p>
                         The extension only accesses information necessary to operate its debugging features on the active
-                        browser tab. This includes page elements related to ad units, banner wrappers, and the
-                        `uadrefresh_debug` cookie used for testing UAF behavior.
+                        browser tab. This includes page elements related to ad units, banner wrappers, ad request timing
+                        available from the browser Performance API, and the `uadrefresh_debug` cookie used for testing UAF
+                        behavior.
                     </p>
                     <div class="tag-row" aria-label="Accessed items">
                         <span class="tag">Active tab URL context</span>
                         <span class="tag">Ad unit identifiers</span>
                         <span class="tag">Banner wrapper IDs</span>
                         <span class="tag">Debug cookie state</span>
+                        <span class="tag">Ad request resource entries</span>
+                        <span class="tag">Public IP display</span>
                     </div>
                 </section>
 
@@ -415,17 +423,33 @@
                     <h3>How This Information Is Used</h3>
                     <ul>
                         <li>To detect supported ad units and banner wrappers on the current page.</li>
+                        <li>To show whether ad units appear to be duplicated, refreshed, or requested more than once.</li>
+                        <li>To scan the active page for banners at the user-configured interval when Realtime check is enabled.</li>
                         <li>To let the user enable or disable the `uadrefresh_debug` cookie for debugging purposes.</li>
-                        <li>To scroll to and visually highlight selected elements when the user clicks them in the extension popup.</li>
+                        <li>To copy ad unit IDs, banner IDs, or the displayed public IP address to the clipboard when the user clicks a copy button.</li>
+                        <li>To scroll to and visually highlight selected banner elements when the user clicks the Goto button in the extension popup.</li>
                         <li>To display the expiration time of the debug cookie in the extension interface.</li>
+                    </ul>
+                </section>
+
+                <section class="card" id="permissions">
+                    <h3>Chrome Permissions</h3>
+                    <ul>
+                        <li><strong>storage:</strong> Saves extension preferences, such as Realtime check status and scan interval, inside Chrome storage.</li>
+                        <li><strong>cookies:</strong> Creates, reads, and removes the `uadrefresh_debug` cookie for the current site when requested by the user.</li>
+                        <li><strong>activeTab and scripting:</strong> Injects the content script into the active tab so the extension can inspect supported ad units and banner wrappers.</li>
+                        <li><strong>alarms:</strong> Schedules optional realtime banner checks at the interval configured by the user. This permission does not collect, transmit, or store personal data.</li>
+                        <li><strong>host permissions for HTTPS pages:</strong> Allows the extension to operate on supported HTTPS pages where the user opens the popup.</li>
                     </ul>
                 </section>
 
                 <section class="card" id="sharing">
                     <h3>Data Sharing</h3>
                     <p>
-                        UAF Debugger Pro does not transmit page data, cookie data, or user information to external services.
-                        No analytics, remote tracking scripts, or third-party data brokers are used by this extension.
+                        UAF Debugger Pro does not transmit ad unit data, banner data, cookie data, or browsing data to the
+                        developer's servers. No analytics, remote tracking scripts, or third-party data brokers are used by
+                        this extension. The public IP feature calls `https://api.ipify.org?format=json` only to display the
+                        current public IP address in the popup; ad data and cookie data are not sent with that request.
                     </p>
                 </section>
 
@@ -433,8 +457,9 @@
                     <h3>Storage and Security</h3>
                     <p>
                         Any small amount of state used by the extension, such as cookie expiration metadata, stays inside
-                        the browser through Chrome extension storage. The tool is intended to support internal debugging
-                        workflows and does not maintain a remote database of user activity.
+                        the browser through Chrome extension storage. Realtime scan settings and the latest banner scan
+                        result for a tab may also be stored locally in Chrome storage. The tool is intended to support
+                        internal debugging workflows and does not maintain a remote database of user activity.
                     </p>
                 </section>
 
